@@ -1,0 +1,42 @@
+version: datasets/v0.2
+source: tap-spotify
+title: Your Top 10 Most Listened To Tracks Popularity (Short Term)
+questions: What are the top 10 tracks I've recently listened to and their popularity?
+description: |-
+  Your 10 most listened to tracks recently and their popularity. (Approx. last 4 weeks).
+
+  #short-term
+metadata: |-
+  {
+    "name": "user_top_tracks_short_term",
+    "label": "Your Most Listened To Tracks And Popularity", 
+    "related_table": {
+      "columns": [
+        {"name": "track_name", "label": "Track Name", "description": "Track Name"}
+      ],
+      "aggregates": [
+        {"name": "popularity", "label": "Popularity", "description": "Popularity"}
+      ]
+    }
+  }
+visualisation: |-
+  {"chartjs-chart": 
+    {"chartType": "bar", 
+      "options": {
+        "scales": {
+          "y": {
+            "beginAtZero": true,
+            "max": 100
+          }
+        }
+      }
+    }
+  }
+query: |-
+  SELECT
+    track_name "user_top_tracks_short_term.track_name"
+    , artist_name "Artist(s) Name"
+    , popularity "user_top_tracks_short_term.popularity"
+  FROM user_top_tracks_short_term
+  ORDER BY rank ASC
+  LIMIT 10
